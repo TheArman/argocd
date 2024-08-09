@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deploy
+  labels:
+    app : {{ .Release.Name }}-deploy
+spec:
+  selector: 
+    matchLabels:
+      my-label: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        my-label: {{ .Release.Name }}
+    spec:
+      initContainers:
+      - name: setup
+        image: {{ .Values.container.image }}
+        command: ["./setup.sh"]
+      containers:
+      - name: {{ .Release.Name }}-web
+        image: {{ .Values.container.image }}
+        ports:
+          - containerPort: {{ .Values.port }}
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 500m
+        # resources:
+        #   requests:
+        #     memory: 64Mi
+        #     cpu: 20m
+        #   limits:
+        #     memory: 64Mi
+        #     cpu: 100m

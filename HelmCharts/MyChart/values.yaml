@@ -1,0 +1,12 @@
+container:
+  image: # confidential information 
+port: 80
+owner: the-arman
+protocol: TCP
+pathType: Prefix
+
+apiVersion: apps/v1
+minReplicas: 1
+maxReplicas: 30
+cpuAverageUtilization: 80
+memoryAverageUtilization: 70
